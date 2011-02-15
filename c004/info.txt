@@ -1,0 +1,6 @@
+Ran with dt = 0.0075 for primal
+         dt = 0.005 for dual
+
+100 opt iterations brought J = 1.6 to J = 0.15
+
+bounds: 0.5*base < mu < 1.25*base

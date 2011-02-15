@@ -1,0 +1,7 @@
+RENAME zPlus periodic_zPlus CART 0 0 0.069428571428571
+RENAME zMinus periodic_zMinus CART 0 0 -0.069428571428571
+RENAME inlet periodic_inlet CART 3 0 0
+RENAME outlet periodic_outlet CART -3 0 0
+RESTART channel004.msh
+
+

@@ -1,0 +1,20 @@
+This is channel 004 with Re = 180 in the mesh generation settings
+The values of UT are found using kriging
+
+restartPREPRO.in has no values for any variables, it's just the 
+periodic mesh from prepro
+
+restartUT.out is the result of running ifDualKrig for 1 timestep
+and has only the values of UT set in the restart file
+
+you will need to run ifDualCV to get the original viscosity
+restartCV.out is the result of running ifDualCV, which reads
+in nu_t.dat and spits out nut_no.dat
+
+restartRANS.out is the converged ifDualAdj Primal solution
+with prescribed turbulent viscosity
+
+restartADJ.out is the converged ifDualAdj Adjoint solution
+
+nut_noRANS.dat is the k-omega turbulent viscosity that is
+used to set the bounds for the optimization routine

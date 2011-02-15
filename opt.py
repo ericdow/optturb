@@ -18,12 +18,16 @@ class opt:
     # - niter (max iterations to run in ifDual)
     # - restart (restart that will be used always)
     # - path (path where files are stored)
-    def __init__(self, x_no, y_no, niter, restart, path):
+    # - np (number of cores to run on) 
+    def __init__(self, x_no, y_no, niter, restart, path, ctolpri, ctoladj):
         self.x_no    = x_no
         self.y_no    = y_no
         self.niter   = niter
         self.restart = restart
         self.path    = path
+        self.np      = np 
+        self.ctolpri = ctolpri
+        self.ctoladj = ctoladj
         self.count   = 0 # iteration number
 
     def J(self, x, grad):
@@ -33,34 +37,34 @@ class opt:
         temp = self.path; temp += "nut_no.dat"
         file_io.write_field(temp, self.x_no, self.y_no, nu)
         # solve flow at this nu
-        run_ifdual.runpri(self.path, self.restart, self.niter)
+        run_ifdual.runpri(self.path, self.restart, self.niter, self.np, ctolpri)
         src = ''.join([self.path,'ifDual.out'])
-        dst = ''.join([self.path,'ifDual_Pri',str(self.count),'.out'])
+        dst = ''.join([self.path,'ifDual_Pri.step',str(self.count),'.out'])
         shutil.copy(src,dst)
         # read in objective function value
         J = file_io.read_J(self.path)
         # calculate gradient - call adjoint
         if grad.size > 0:
-            run_ifdual.runadj(self.path, self.restart, self.niter)
+            run_ifdual.runadj(self.path, self.restart, self.niter, self.np, self.ctoladj)
             # read in the gradient
             temp = self.path; temp += "grad.dat"
             nno, self.x_no, self.y_no, grad[:] = file_io.read_field(temp)
         # move files around
         print "Writing files for step ",self.count 
         src = ''.join([self.path,'J.dat'])
-        dst = ''.join([self.path,'J',str(self.count),'.dat'])
+        dst = ''.join([self.path,'J.step',str(self.count),'.dat'])
         shutil.copy(src,dst)
         src = ''.join([self.path,'nut_no.dat'])
-        dst = ''.join([self.path,'nut_no',str(self.count),'.dat'])
+        dst = ''.join([self.path,'nut_no.step',str(self.count),'.dat'])
         shutil.copy(src,dst)
         src = ''.join([self.path,'grad.dat'])
-        dst = ''.join([self.path,'grad',str(self.count),'.dat'])
+        dst = ''.join([self.path,'grad.step',str(self.count),'.dat'])
         shutil.copy(src,dst)
         src = ''.join([self.path,'restart.out'])
-        dst = ''.join([self.path,'restart',str(self.count),'.out'])
+        dst = ''.join([self.path,'restart.step',str(self.count),'.out'])
         shutil.copy(src,dst)
         src = ''.join([self.path,'ifDual.out'])
-        dst = ''.join([self.path,'ifDual_Adj',str(self.count),'.out'])
+        dst = ''.join([self.path,'ifDual_Adj.step',str(self.count),'.out'])
         shutil.copy(src,dst)
         print "Iter: ", self.count, "J: ", J
         self.count+=1

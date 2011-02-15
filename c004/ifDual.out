@@ -1,0 +1,394 @@
+Ugp()
+UgpWithTools0()
+UgpWithTools1()
+UgpWithTools()
+UgpPrimal()
+UgpDual()
+registerScalar NO_DATA: NO_ALPHA
+IfDualAdj()
+************** start of params ****************
+2 
+CHECK_INTERVAL 100 
+CONVERGE_TOL 0.01 
+DT 0.007 
+NSTEPS 50000 
+NU 0.002 
+RESTART restart.out 
+WRITE_DATA FORMAT TECPLOT NAME channel INTERVAL 1000 GEOM ALL VARS U P NU NUT_CV NUT_NO PSIU PSIP DJDNU GRAD UT 
+WRITE_RESTART 1000 
+lowerWall.U WALL 
+upperWall.U WALL 
+**************  end of params  ****************
+registerValue (double): DT
+registerValue (int)   : STEP
+registerValue (double): TIME
+registerValue (double): U_CONVECTIVE
+registerValue (double): L2P_PREV
+registerValue (double): L2A_PREV
+registerValue (double): DL2P0
+registerValue (double): DL2A0
+registerVector NO_DATA: U
+registerVector NO_DATA: U0
+registerVector NO_DATA: UINIT
+registerScalar NO_DATA: P
+registerVector NO_DATA: UM
+registerVector NO_DATA: UM0
+registerScalar NO_DATA: PHIM
+registerScalar NO_DATA: PHIM0
+registerScalar NO_DATA: NU
+registerScalar NO_DATA: NUT_NO
+registerVector NO_DATA: UT
+registerScalar NO_DATA: DJDNU
+registerScalar NO_DATA: DNU
+registerScalar NO_DATA: GRAD
+registerVector NO_DATA: PSIU
+registerVector NO_DATA: PSIU0
+registerVector NO_DATA: PSIUINIT
+registerScalar NO_DATA: PSIP
+registerScalar NO_DATA: PHI
+registerScalar NO_DATA: PHI0
+Channel()
+Specified runtype = 2
+RUNTYPE = 2
+readRestart: restart.out
+ > global nno, nfa, ncv: 4848 13037 3538
+ > readNodeCheck: OK
+ > readFaceCheck: OK
+ > readCvCheck  : OK
+ > adding FaZone: lowerWall
+ > adding FaZone: upperWall
+ > adding FaZone: periodic_inlet
+ > adding FaZone: periodic_outlet
+ > adding FaZone: periodic_zMinus
+ > adding FaZone: periodic_zPlus
+ > adding FaZone: default-interior
+ > file contains partition info for npart: 1
+ > reading NO_DATA vector: X_NO
+ > dumpVectorRange: X_NO, 0: 0:3, 1: -0.511305:3.51131, 2: 2.14495e-13:0.0694286
+ > reading int value: STEP: 100
+ > reading double value: DT: 0.0075
+ > reading double value: TIME: 2661.52
+ > reading double value: U_CONVECTIVE: 0
+ > reading double value: L2P_PREV: 0.000117219
+ > reading double value: L2A_PREV: 0
+ > reading double value: DL2P0: 0.00021149
+ > reading double value: DL2A0: 0.00021149
+ > reading NO_DATA scalar: NO_ALPHA
+ > dumpScalarRange: NO_ALPHA, 0.0107314:1
+ > reading NO_DATA scalar: P
+ > dumpScalarRange: P, -12.0903:15.2385
+ > reading NO_DATA scalar: PHIM
+ > dumpScalarRange: PHIM, -0.0906771:0.114289
+ > reading NO_DATA scalar: PHIM0
+ > dumpScalarRange: PHIM0, -0.0906785:0.114291
+ > reading NO_DATA scalar: NU
+ > dumpScalarRange: NU, 0.00201147:0.272886
+ > reading NO_DATA scalar: NUT_NO
+ > dumpScalarRange: NUT_NO, 1.14664e-05:0.270886
+ > reading NO_DATA scalar: DJDNU
+ > dumpScalarRange: DJDNU, -105199:26388.2
+ > reading NO_DATA scalar: DNU
+ > dumpScalarRange: DNU, 1.32221e-31:0.0148346
+ > reading NO_DATA scalar: GRAD
+ > dumpScalarRange: GRAD, -0.0164801:0.0110777
+ > reading NO_DATA scalar: PSIP
+ > dumpScalarRange: PSIP, -18.4221:55.881
+ > reading NO_DATA scalar: PHI
+ > dumpScalarRange: PHI, 0:0
+ > reading NO_DATA scalar: PHI0
+ > dumpScalarRange: PHI0, 0:0
+ > reading NO_DATA vector: U
+ > dumpVectorRange: U, 0: -3.29381:13.2299, 1: -1.85612:1.67804, 2: -4.12122e-15:5.37894e-15
+ > reading NO_DATA vector: U0
+ > dumpVectorRange: U0, 0: -3.29386:13.2301, 1: -1.85615:1.67807, 2: -4.13423e-15:5.40196e-15
+ > reading NO_DATA vector: UINIT
+ > dumpVectorRange: UINIT, 0: -3.29901:13.2466, 1: -1.85929:1.68109, 2: -4.09035e-15:5.28917e-15
+ > reading NO_DATA vector: UM
+ > dumpVectorRange: UM, 0: -3.22849:13.23, 1: -1.79968:1.63809, 2: -4.04122e-15:5.12619e-15
+ > reading NO_DATA vector: UM0
+ > dumpVectorRange: UM0, 0: -3.22853:13.2302, 1: -1.79971:1.63812, 2: -4.04122e-15:5.12619e-15
+ > reading NO_DATA vector: UT
+ > dumpVectorRange: UT, 0: -2.5593:13.6331, 1: -1.87078:1.87078, 2: 0:0
+ > reading NO_DATA vector: PSIU
+ > dumpVectorRange: PSIU, 0: -0.0120643:11.2126, 1: -8.18835:9.11406, 2: -2.68805e-11:2.86395e-11
+ > reading NO_DATA vector: PSIU0
+ > dumpVectorRange: PSIU0, 0: -0.0120644:11.2134, 1: -8.189:9.11474, 2: -2.68798e-11:2.86383e-11
+ > reading NO_DATA vector: PSIUINIT
+ > dumpVectorRange: PSIUINIT, 0: -0.0120643:11.2126, 1: -8.18835:9.11406, 2: -2.68805e-11:2.86395e-11
+ > readRestart timing: nno: 4848, nfa: 13037, ncv: 3538, np: 1, size[B]: 2086184, time[s]: 0.014029, rate[MB/s]: 148.705
+UgpDual()
+UgpWithTools::init()
+UgpWithTools1::init()
+UgpWithTools0::init()
+ > Ugp::init()
+setCvPartMetis()
+ > dumpScalarRange: FA_FLAG, 0:6
+checkCvPart(), npart: 1, ncv global: 3538 min/avg/max per proc: 3538 3538 3538
+redistReconnectReorder()
+faZoneList dump after sort: 
+FaZone::dump(), name: "lowerWall", index, kind, bits:  0 1 000000000000
+FaZone::dump(), name: "upperWall", index, kind, bits:  1 1 000000000000
+FaZone::dump(), name: "periodic_inlet", index, kind, bits:  2 2 100000000000
+FaZone::dump(), name: "periodic_outlet", index, kind, bits:  3 2 010000000000
+FaZone::dump(), name: "periodic_zMinus", index, kind, bits:  4 2 001000000000
+FaZone::dump(), name: "periodic_zPlus", index, kind, bits:  5 2 000100000000
+FaZone::dump(), name: "default-interior", index, kind, bits:  6 6 000000000000
+buildFaocv()
+passed discrete GCL.
+checkFaceCorrespondence (should be zero), forward: 8.88178e-16 8.88178e-16 0, reverse: 8.88178e-16 8.88178e-16 0
+syncNoofa()
+syncNoofa: nodes of faces matched wihin tol (should be small): 0
+reconnectNodes()
+checkNodeCorrespondence (should be zero), forward: 0 0 0, reverse: 0 0 0
+buildNoocv()
+reorderFaocvNoocv()
+************* element summary **************
+hex:     970
+prism:   2498
+pyramid: 0
+tet:     0
+unknown: 70
+total:   3538
+********** end element summary *************
+buildCnono()
+reorderActive()
+ > nno_a_global: 2367, max imbalance: 1
+addGhostStuff()
+ > no2PrcommList tests...OK
+ > change in non-active node locations (should be zero): 0
+addGhostEdgeStuffPart1()
+buildEnonoEdonoActive()
+ > faono sparsity (min/avg/max): 8 14.9328 24
+ > enono sparsity (min/avg/max): 6 7.98944 11
+addGhostEdgeStuffPart2()
+ > checking ed2Prcomm...OK
+ > checking ed2Prcomm reduction: dist (should be zero): 0
+buildCnonoActive()
+ > cvono sparsity (min/avg/max): 4 9.9079 16
+ > cnono sparsity (min/avg/max): 15 23.7934 36
+buildBcStuff()
+ > setting up bc stuff for zone: lowerWall
+ > setting up bc stuff for zone: upperWall
+buildOperatorsActive()
+checkOperatorsActive()
+ > active node sum(no_volume): 0.704966
+ > linear gradient check (should be zero): 4.49862e-13
+buildSkewSymmetricStuff(), alpha_coeff: 1
+ > nnon_max: 36
+ > dumpScalarRange: ED_ALPHA, 1.33112e-17:1
+buildCnonoFilter()
+checkCnonoFilter(): error in filtering linear field (should be zero): 2.30926e-13
+PRESSURE_SOLVER: HYPRE_AMG (default)
+MOMENTUM_SOLVER: BCGSTAB (default)
+Channel::initialHook()
+Reading input nut_no.dat
+MAX nut_no: 0.270886
+CONVERGE_TOL = 0.01
+initWriteData()
+initProbes()
+run()
+setBcs()
+ > lowerWall.U = WALL
+ > upperWall.U = WALL
+running adjoint
+Initializing hypreSolverForPressure...
+ > thresholding coefficients at: 1e-10 of row norm
+ > old matrix size: 18773, thresholded size: 18773, factor: 1
+
+BoomerAMG SETUP PARAMETERS:
+
+ Max levels = 20
+ Num levels = 8
+
+ Strength Threshold = 0.300000
+ Interpolation Truncation Factor = 0.000000
+ Maximum Row Sum Threshold for Dependency Weakening = 0.900000
+
+ Coarsening Type = Falgout-CLJP 
+ measures are determined locally
+
+ Interpolation = modified classical interpolation
+
+Operator Matrix Information:
+
+            nonzero         entries per row        row sums
+lev   rows  entries  sparse  min  max   avg       min         max
+===================================================================
+ 0    2367    18773  0.003     5   12   7.9  -4.036e-16   2.887e-16
+ 1    1096    13264  0.011     6   20  12.1  -3.521e-16   3.757e-16
+ 2     514     8678  0.033     6   34  16.9  -4.614e-16   4.201e-16
+ 3     227     4943  0.096     7   40  21.8  -7.043e-16   4.701e-16
+ 4      97     2387  0.254    13   42  24.6  -8.937e-16   5.284e-16
+ 5      41      935  0.556    10   37  22.8  -1.254e-15   3.923e-16
+ 6      18      262  0.809    11   18  14.6  -1.995e-15   4.543e-16
+ 7       5       25  1.000     5    5   5.0  -4.580e-15   0.000e+00
+
+
+Interpolation Matrix Information:
+                 entries/row    min     max         row sums
+lev  rows cols    min max     weight   weight     min       max 
+=================================================================
+ 0  2367 x 1096    1   6   7.407e-02 1.000e+00 1.000e+00 1.000e+00
+ 1  1096 x 514     1   7   6.558e-02 1.000e+00 1.000e+00 1.000e+00
+ 2   514 x 227     1   6   7.676e-02 1.000e+00 1.000e+00 1.000e+00
+ 3   227 x 97      1   6   6.891e-02 1.000e+00 1.000e+00 1.000e+00
+ 4    97 x 41      1   5   8.938e-02 1.000e+00 1.000e+00 1.000e+00
+ 5    41 x 18      1   5   1.261e-01 1.000e+00 1.000e+00 1.000e+00
+ 6    18 x 5       1   3   1.943e-01 1.000e+00 1.000e+00 1.000e+00
+
+
+     Complexity:    grid = 1.844106
+                operator = 2.624354
+
+
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+            Number of sweeps:            1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+            Number of sweeps:            1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.189902e-02                 7.488828e-04
+    Cycle  1   7.895051e-04    0.066350     4.968871e-05 
+    Cycle  2   1.465055e-04    0.185566     9.220547e-06 
+    Cycle  3   2.714277e-05    0.185268     1.708272e-06 
+    Cycle  4   5.064852e-06    0.186600     3.187642e-07 
+
+
+ Average Convergence Factor = 0.143636
+
+     Complexity:    grid = 1.844106
+                operator = 2.624354
+                   cycle = 5.247377
+
+
+
+
+----------------------------------------------------------
+ starting step: 100 time: 2662.22 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstabAdj iter, res_max: 3 0.0137942 0.0945482 7.64631e-12
+ > solveNoBcgstabAdj iter, res_max: 6 0.00010903 0.00038842 7.64451e-12
+ > solveNoBcgstabAdj iter, res_max: 9 1.44782e-05 4.54766e-05 7.64272e-12
+ > solveNoBcgstabAdj iter, res_max: 12 4.51035e-07 1.04029e-06 7.64092e-12
+ > solveNoBcgstabAdj iter, res_max: 15 8.7576e-09 2.75596e-08 7.63913e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.70894e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+            Number of sweeps:            1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.538882e-03                 9.773233e-05
+    Cycle  1   4.823345e-05    0.031343     3.063242e-06 
+    Cycle  2   8.589908e-06    0.178090     5.455336e-07 
+
+
+ Average Convergence Factor = 0.074712
+
+     Complexity:    grid = 1.844106
+                operator = 2.624354
+                   cycle = 5.247377
+
+
+
+ > dumpScalarRange: CFL, 0.00296547:3.1328
+ > time since last check[s]: 126.598
+
+ > Convergence criteria met
+
+writeRestart: restart.out
+ > header
+ > counts
+ > no int scalar: NO_CHECK
+ > fa int scalar: FA_CHECK
+ > cv int scalar: CV_CHECK
+ > noofa
+ > cvofa
+ > cv part
+ > no double vector: X_NO
+ > int value: STEP, value: 100
+ > double value: DT, value: 0.007
+ > double value: TIME, value: 2662.22
+ > double value: U_CONVECTIVE, value: 0
+ > double value: L2P_PREV, value: 0
+ > double value: L2A_PREV, value: 0.00247641
+ > double value: DL2P0, value: 0.00021149
+ > double value: DL2A0, value: 0.00021149
+ > no double scalar: NO_ALPHA
+ > no double scalar: P
+ > no double scalar: PHIM
+ > no double scalar: PHIM0
+ > no double scalar: NU
+ > no double scalar: NUT_NO
+ > no double scalar: DJDNU
+ > no double scalar: DNU
+ > no double scalar: GRAD
+ > no double scalar: PSIP
+ > no double scalar: PHI
+ > no double scalar: PHI0
+ > no double vector: U
+ > no double vector: U0
+ > no double vector: UINIT
+ > no double vector: UM
+ > no double vector: UM0
+ > no double vector: UT
+ > no double vector: PSIU
+ > no double vector: PSIU0
+ > no double vector: PSIUINIT
+ > writeRestart timing: nno: 4848, nfa: 13037, ncv: 3538, np: 1, size[B]: 2086184, time[s]: 0.00602508, rate[MB/s]: 346.25
+~Ugp()
