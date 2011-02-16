@@ -9,13 +9,12 @@ IfDualAdj()
 ************** start of params ****************
 2 
 CHECK_INTERVAL 100 
-CONVERGE_TOL 0.01 
+CONVERGE_TOL 0.0001 
 DT 0.007 
 NSTEPS 50000 
 NU 0.002 
+REG_ESP 1.0E-4 
 RESTART restart.out 
-WRITE_DATA FORMAT TECPLOT NAME channel INTERVAL 1000 GEOM ALL VARS U P NU NUT_CV NUT_NO PSIU PSIP DJDNU GRAD UT 
-WRITE_RESTART 1000 
 lowerWall.U WALL 
 upperWall.U WALL 
 **************  end of params  ****************
@@ -23,10 +22,6 @@ registerValue (double): DT
 registerValue (int)   : STEP
 registerValue (double): TIME
 registerValue (double): U_CONVECTIVE
-registerValue (double): L2P_PREV
-registerValue (double): L2A_PREV
-registerValue (double): DL2P0
-registerValue (double): DL2A0
 registerVector NO_DATA: U
 registerVector NO_DATA: U0
 registerVector NO_DATA: UINIT
@@ -37,14 +32,14 @@ registerScalar NO_DATA: PHIM
 registerScalar NO_DATA: PHIM0
 registerScalar NO_DATA: NU
 registerScalar NO_DATA: NUT_NO
-registerVector NO_DATA: UT
-registerScalar NO_DATA: DJDNU
-registerScalar NO_DATA: DNU
-registerScalar NO_DATA: GRAD
+registerVector NO_DATA: RESPRI
 registerVector NO_DATA: PSIU
 registerVector NO_DATA: PSIU0
 registerVector NO_DATA: PSIUINIT
 registerScalar NO_DATA: PSIP
+registerVector NO_DATA: UT
+registerScalar NO_DATA: GRAD
+registerVector NO_DATA: RESADJ
 registerScalar NO_DATA: PHI
 registerScalar NO_DATA: PHI0
 Channel()
@@ -62,60 +57,56 @@ readRestart: restart.out
  > adding FaZone: periodic_zMinus
  > adding FaZone: periodic_zPlus
  > adding FaZone: default-interior
- > file contains partition info for npart: 1
+ > file contains partition info for npart: 6
  > reading NO_DATA vector: X_NO
  > dumpVectorRange: X_NO, 0: 0:3, 1: -0.511305:3.51131, 2: 2.14495e-13:0.0694286
- > reading int value: STEP: 100
- > reading double value: DT: 0.0075
- > reading double value: TIME: 2661.52
+ > reading int value: STEP: 5967
+ > reading double value: DT: 0.01
+ > reading double value: TIME: 440.593
  > reading double value: U_CONVECTIVE: 0
- > reading double value: L2P_PREV: 0.000117219
- > reading double value: L2A_PREV: 0
- > reading double value: DL2P0: 0.00021149
- > reading double value: DL2A0: 0.00021149
  > reading NO_DATA scalar: NO_ALPHA
  > dumpScalarRange: NO_ALPHA, 0.0107314:1
  > reading NO_DATA scalar: P
- > dumpScalarRange: P, -12.0903:15.2385
+ > dumpScalarRange: P, -18.1844:18.1266
  > reading NO_DATA scalar: PHIM
- > dumpScalarRange: PHIM, -0.0906771:0.114289
+ > dumpScalarRange: PHIM, -0.181844:0.181266
  > reading NO_DATA scalar: PHIM0
- > dumpScalarRange: PHIM0, -0.0906785:0.114291
+ > dumpScalarRange: PHIM0, -0.181844:0.181266
  > reading NO_DATA scalar: NU
- > dumpScalarRange: NU, 0.00201147:0.272886
+ > dumpScalarRange: NU, 0.00201147:0.182958
  > reading NO_DATA scalar: NUT_NO
- > dumpScalarRange: NUT_NO, 1.14664e-05:0.270886
- > reading NO_DATA scalar: DJDNU
- > dumpScalarRange: DJDNU, -105199:26388.2
- > reading NO_DATA scalar: DNU
- > dumpScalarRange: DNU, 1.32221e-31:0.0148346
- > reading NO_DATA scalar: GRAD
- > dumpScalarRange: GRAD, -0.0164801:0.0110777
+ > dumpScalarRange: NUT_NO, 1.14711e-05:0.180958
  > reading NO_DATA scalar: PSIP
- > dumpScalarRange: PSIP, -18.4221:55.881
+ > dumpScalarRange: PSIP, -297.022:1231.75
+ > reading NO_DATA scalar: GRAD
+ > dumpScalarRange: GRAD, -0.242778:0.269367
  > reading NO_DATA scalar: PHI
  > dumpScalarRange: PHI, 0:0
  > reading NO_DATA scalar: PHI0
  > dumpScalarRange: PHI0, 0:0
  > reading NO_DATA vector: U
- > dumpVectorRange: U, 0: -3.29381:13.2299, 1: -1.85612:1.67804, 2: -4.12122e-15:5.37894e-15
+ > dumpVectorRange: U, 0: -3.09401:16.2158, 1: -2.01474:1.82963, 2: -8.50234e-16:1.41817e-15
  > reading NO_DATA vector: U0
- > dumpVectorRange: U0, 0: -3.29386:13.2301, 1: -1.85615:1.67807, 2: -4.13423e-15:5.40196e-15
+ > dumpVectorRange: U0, 0: -3.09401:16.2158, 1: -2.01474:1.82963, 2: -8.50234e-16:1.41817e-15
  > reading NO_DATA vector: UINIT
- > dumpVectorRange: UINIT, 0: -3.29901:13.2466, 1: -1.85929:1.68109, 2: -4.09035e-15:5.28917e-15
+ > dumpVectorRange: UINIT, 0: -3.00988:16.8705, 1: -2.03785:1.87507, 2: -9.10666e-16:1.49938e-15
  > reading NO_DATA vector: UM
- > dumpVectorRange: UM, 0: -3.22849:13.23, 1: -1.79968:1.63809, 2: -4.04122e-15:5.12619e-15
+ > dumpVectorRange: UM, 0: -3.0482:16.2184, 1: -2.00838:1.83925, 2: -1.54187e-15:2.8492e-15
  > reading NO_DATA vector: UM0
- > dumpVectorRange: UM0, 0: -3.22853:13.2302, 1: -1.79971:1.63812, 2: -4.04122e-15:5.12619e-15
+ > dumpVectorRange: UM0, 0: -3.04821:16.2184, 1: -2.00838:1.83925, 2: -1.52896e-15:2.96523e-15
+ > reading NO_DATA vector: RESPRI
+ > dumpVectorRange: RESPRI, 0: -3.19429e-06:1.00749e-06, 1: -5.44364e-07:6.36312e-07, 2: -1.45189e-15:1.13434e-15
+ > reading NO_DATA vector: PSIU
+ > dumpVectorRange: PSIU, 0: -0.950294:171.456, 1: -140.856:145.746, 2: -1.48208e-11:2.27111e-11
+ > reading NO_DATA vector: PSIU0
+ > dumpVectorRange: PSIU0, 0: -0.950293:171.456, 1: -140.856:145.746, 2: -1.48358e-11:2.2712e-11
+ > reading NO_DATA vector: PSIUINIT
+ > dumpVectorRange: PSIUINIT, 0: -0.950294:171.456, 1: -140.856:145.746, 2: -1.48208e-11:2.27111e-11
  > reading NO_DATA vector: UT
  > dumpVectorRange: UT, 0: -2.5593:13.6331, 1: -1.87078:1.87078, 2: 0:0
- > reading NO_DATA vector: PSIU
- > dumpVectorRange: PSIU, 0: -0.0120643:11.2126, 1: -8.18835:9.11406, 2: -2.68805e-11:2.86395e-11
- > reading NO_DATA vector: PSIU0
- > dumpVectorRange: PSIU0, 0: -0.0120644:11.2134, 1: -8.189:9.11474, 2: -2.68798e-11:2.86383e-11
- > reading NO_DATA vector: PSIUINIT
- > dumpVectorRange: PSIUINIT, 0: -0.0120643:11.2126, 1: -8.18835:9.11406, 2: -2.68805e-11:2.86395e-11
- > readRestart timing: nno: 4848, nfa: 13037, ncv: 3538, np: 1, size[B]: 2086184, time[s]: 0.014029, rate[MB/s]: 148.705
+ > reading NO_DATA vector: RESADJ
+ > dumpVectorRange: RESADJ, 0: -1.41785e-06:0.000272847, 1: -0.000452935:0.000450852, 2: -4.6002e-12:4.27796e-12
+ > readRestart timing: nno: 4848, nfa: 13037, ncv: 3538, np: 6, size[B]: 2240296, time[s]: 0.021451, rate[MB/s]: 104.438
 UgpDual()
 UgpWithTools::init()
 UgpWithTools1::init()
@@ -123,7 +114,13 @@ UgpWithTools0::init()
  > Ugp::init()
 setCvPartMetis()
  > dumpScalarRange: FA_FLAG, 0:6
-checkCvPart(), npart: 1, ncv global: 3538 min/avg/max per proc: 3538 3538 3538
+ > dumpScalarRange: CV_WEIGHTS, 1:1
+Partitioning a graph of size 3538 serially
+      Setup: Max:   0.000, Sum:   0.001, Balance:   1.236
+      Total: Max:   0.005, Sum:   0.028, Balance:   1.003
+Final 6-way CUT:    168 	Balance: 1.001   avg: 1.001
+ > dumpScalarRange: CV_PART, 0:5
+checkCvPart(), npart: 6, ncv global: 3538 min/avg/max per proc: 589 589.667 590
 redistReconnectReorder()
 faZoneList dump after sort: 
 FaZone::dump(), name: "lowerWall", index, kind, bits:  0 1 000000000000
@@ -152,7 +149,7 @@ total:   3538
 ********** end element summary *************
 buildCnono()
 reorderActive()
- > nno_a_global: 2367, max imbalance: 1
+ > nno_a_global: 2367, max imbalance: 1.19645
 addGhostStuff()
  > no2PrcommList tests...OK
  > change in non-active node locations (should be zero): 0
@@ -175,15 +172,13 @@ checkOperatorsActive()
  > linear gradient check (should be zero): 4.49862e-13
 buildSkewSymmetricStuff(), alpha_coeff: 1
  > nnon_max: 36
- > dumpScalarRange: ED_ALPHA, 1.33112e-17:1
+ > dumpScalarRange: ED_ALPHA, 1.38707e-17:1
 buildCnonoFilter()
-checkCnonoFilter(): error in filtering linear field (should be zero): 2.30926e-13
+checkCnonoFilter(): error in filtering linear field (should be zero): 2.38032e-13
 PRESSURE_SOLVER: HYPRE_AMG (default)
 MOMENTUM_SOLVER: BCGSTAB (default)
 Channel::initialHook()
 Reading input nut_no.dat
-MAX nut_no: 0.270886
-CONVERGE_TOL = 0.01
 initWriteData()
 initProbes()
 run()
@@ -215,30 +210,31 @@ Operator Matrix Information:
 lev   rows  entries  sparse  min  max   avg       min         max
 ===================================================================
  0    2367    18773  0.003     5   12   7.9  -4.036e-16   2.887e-16
- 1    1096    13264  0.011     6   20  12.1  -3.521e-16   3.757e-16
- 2     514     8678  0.033     6   34  16.9  -4.614e-16   4.201e-16
- 3     227     4943  0.096     7   40  21.8  -7.043e-16   4.701e-16
- 4      97     2387  0.254    13   42  24.6  -8.937e-16   5.284e-16
- 5      41      935  0.556    10   37  22.8  -1.254e-15   3.923e-16
- 6      18      262  0.809    11   18  14.6  -1.995e-15   4.543e-16
- 7       5       25  1.000     5    5   5.0  -4.580e-15   0.000e+00
+ 1    1099    13291  0.011     6   21  12.1  -3.955e-16   3.644e-16
+ 2     513     8883  0.034     6   32  17.3  -5.892e-16   3.107e-16
+ 3     225     5025  0.099     8   42  22.3  -4.901e-16   3.246e-16
+ 4      98     2392  0.249     8   52  24.4  -9.497e-16   4.347e-16
+ 5      39      871  0.573    10   35  22.3  -1.365e-15   5.573e-16
+ 6      13      147  0.870     9   13  11.3  -2.037e-15   2.795e-16
+ 7       2        4  1.000     2    2   2.0  -1.001e-14   0.000e+00
 
 
 Interpolation Matrix Information:
+
                  entries/row    min     max         row sums
 lev  rows cols    min max     weight   weight     min       max 
 =================================================================
- 0  2367 x 1096    1   6   7.407e-02 1.000e+00 1.000e+00 1.000e+00
- 1  1096 x 514     1   7   6.558e-02 1.000e+00 1.000e+00 1.000e+00
- 2   514 x 227     1   6   7.676e-02 1.000e+00 1.000e+00 1.000e+00
- 3   227 x 97      1   6   6.891e-02 1.000e+00 1.000e+00 1.000e+00
- 4    97 x 41      1   5   8.938e-02 1.000e+00 1.000e+00 1.000e+00
- 5    41 x 18      1   5   1.261e-01 1.000e+00 1.000e+00 1.000e+00
- 6    18 x 5       1   3   1.943e-01 1.000e+00 1.000e+00 1.000e+00
+ 0  2367 x 1099    1   6   7.306e-02 1.000e+00 1.000e+00 1.000e+00
+ 1  1099 x 513     1   6   5.413e-02 1.000e+00 1.000e+00 1.000e+00
+ 2   513 x 225     1   6   7.848e-02 1.000e+00 1.000e+00 1.000e+00
+ 3   225 x 98      1   5   1.020e-01 1.000e+00 1.000e+00 1.000e+00
+ 4    98 x 39      1   5   1.096e-01 1.000e+00 1.000e+00 1.000e+00
+ 5    39 x 13      1   4   1.804e-01 1.000e+00 1.000e+00 1.000e+00
+ 6    13 x 2       1   2   2.932e-01 1.000e+00 1.000e+00 1.000e+00
 
 
-     Complexity:    grid = 1.844106
-                operator = 2.624354
+     Complexity:    grid = 1.840304
+                operator = 2.630693
 
 
 
@@ -251,7 +247,7 @@ BoomerAMG SOLVER PARAMETERS:
 
   Relaxation Parameters:
    Visiting Grid:                     down   up  coarse
-            Number of sweeps:            1    1     1 
+            Number of partial sweeps:    1    1     1 
    Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
    Point types, partial sweeps (1=C, -1=F):
                   Pre-CG relaxation (down):   1  -1
@@ -268,7 +264,8 @@ BoomerAMG SOLVER PARAMETERS:
 
   Relaxation Parameters:
    Visiting Grid:                     down   up  coarse
-            Number of sweeps:            1    1     1 
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
    Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
    Point types, partial sweeps (1=C, -1=F):
                   Pre-CG relaxation (down):   1  -1
@@ -282,33 +279,33 @@ AMG SOLUTION INFO:
                                             relative
                residual        factor       residual
                --------        ------       --------
-    Initial    1.189902e-02                 7.488828e-04
-    Cycle  1   7.895051e-04    0.066350     4.968871e-05 
-    Cycle  2   1.465055e-04    0.185566     9.220547e-06 
-    Cycle  3   2.714277e-05    0.185268     1.708272e-06 
-    Cycle  4   5.064852e-06    0.186600     3.187642e-07 
+    Initial    1.887535e+01                 3.503025e-02
+    Cycle  1   4.207771e-01    0.022292     7.809086e-04 
+    Cycle  2   7.583889e-02    0.180235     1.407473e-04 
+    Cycle  3   1.514191e-02    0.199659     2.810145e-05 
+    Cycle  4   3.119046e-03    0.205988     5.788552e-06 
+    Cycle  5   6.594806e-04    0.211437     1.223912e-06 
+    Cycle  6   1.425665e-04    0.216180     2.645852e-07 
 
 
- Average Convergence Factor = 0.143636
+ Average Convergence Factor = 0.140073
 
-     Complexity:    grid = 1.844106
-                operator = 2.624354
-                   cycle = 5.247377
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
 
 
 
 
 ----------------------------------------------------------
- starting step: 100 time: 2662.22 dt: 0.007
+ starting step: 100 time: 441.293 dt: 0.007
 ----------------------------------------------------------
 solvePsiU()
- > solveNoBcgstabAdj iter, res_max: 3 0.0137942 0.0945482 7.64631e-12
- > solveNoBcgstabAdj iter, res_max: 6 0.00010903 0.00038842 7.64451e-12
- > solveNoBcgstabAdj iter, res_max: 9 1.44782e-05 4.54766e-05 7.64272e-12
- > solveNoBcgstabAdj iter, res_max: 12 4.51035e-07 1.04029e-06 7.64092e-12
- > solveNoBcgstabAdj iter, res_max: 15 8.7576e-09 2.75596e-08 7.63913e-12
+ > solveNoBcgstab iter, res_max: 3 0.000319141 0.00227334 4.50619e-12
+ > solveNoBcgstab iter, res_max: 6 7.25162e-06 1.23556e-05 4.50572e-12
+ > solveNoBcgstab iter, res_max: 9 1.68637e-07 2.07783e-07 4.50526e-12
 solvePsiPAndCorrectPsiU()
- > Poisson rhs sum (should be zero): 2.70894e-14
+ > Poisson rhs sum (should be zero): 7.10543e-14
 
 
 BoomerAMG SOLVER PARAMETERS:
@@ -319,7 +316,8 @@ BoomerAMG SOLVER PARAMETERS:
 
   Relaxation Parameters:
    Visiting Grid:                     down   up  coarse
-            Number of sweeps:            1    1     1 
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
    Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
    Point types, partial sweeps (1=C, -1=F):
                   Pre-CG relaxation (down):   1  -1
@@ -333,62 +331,3549 @@ AMG SOLUTION INFO:
                                             relative
                residual        factor       residual
                --------        ------       --------
-    Initial    1.538882e-03                 9.773233e-05
-    Cycle  1   4.823345e-05    0.031343     3.063242e-06 
-    Cycle  2   8.589908e-06    0.178090     5.455336e-07 
+    Initial    2.086327e-01                 3.837744e-04
+    Cycle  1   2.432119e-03    0.011657     4.473820e-06 
+    Cycle  2   3.412206e-04    0.140298     6.276665e-07 
 
 
- Average Convergence Factor = 0.074712
+ Average Convergence Factor = 0.040441
 
-     Complexity:    grid = 1.844106
-                operator = 2.624354
-                   cycle = 5.247377
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
 
 
 
- > dumpScalarRange: CFL, 0.00296547:3.1328
- > time since last check[s]: 126.598
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 21.5425
 
- > Convergence criteria met
+----------------------------------------------------------
+ starting step: 200 time: 441.993 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000214201 0.00210147 4.48761e-12
+ > solveNoBcgstab iter, res_max: 6 1.71524e-05 8.68938e-05 4.48715e-12
+ > solveNoBcgstab iter, res_max: 9 3.93771e-06 1.33541e-05 4.48669e-12
+ > solveNoBcgstab iter, res_max: 12 1.72376e-07 3.9143e-07 4.48623e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.69482e-13
 
-writeRestart: restart.out
- > header
- > counts
- > no int scalar: NO_CHECK
- > fa int scalar: FA_CHECK
- > cv int scalar: CV_CHECK
- > noofa
- > cvofa
- > cv part
- > no double vector: X_NO
- > int value: STEP, value: 100
- > double value: DT, value: 0.007
- > double value: TIME, value: 2662.22
- > double value: U_CONVECTIVE, value: 0
- > double value: L2P_PREV, value: 0
- > double value: L2A_PREV, value: 0.00247641
- > double value: DL2P0, value: 0.00021149
- > double value: DL2A0, value: 0.00021149
- > no double scalar: NO_ALPHA
- > no double scalar: P
- > no double scalar: PHIM
- > no double scalar: PHIM0
- > no double scalar: NU
- > no double scalar: NUT_NO
- > no double scalar: DJDNU
- > no double scalar: DNU
- > no double scalar: GRAD
- > no double scalar: PSIP
- > no double scalar: PHI
- > no double scalar: PHI0
- > no double vector: U
- > no double vector: U0
- > no double vector: UINIT
- > no double vector: UM
- > no double vector: UM0
- > no double vector: UT
- > no double vector: PSIU
- > no double vector: PSIU0
- > no double vector: PSIUINIT
- > writeRestart timing: nno: 4848, nfa: 13037, ncv: 3538, np: 1, size[B]: 2086184, time[s]: 0.00602508, rate[MB/s]: 346.25
-~Ugp()
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    7.816259e-02                 1.464058e-04
+    Cycle  1   1.234338e-03    0.015792     2.312029e-06 
+    Cycle  2   2.327679e-04    0.188577     4.359957e-07 
+
+
+ Average Convergence Factor = 0.054571
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 22.9678
+
+----------------------------------------------------------
+ starting step: 300 time: 442.693 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000237309 0.00286641 4.44603e-12
+ > solveNoBcgstab iter, res_max: 6 2.58072e-05 0.000160832 4.44558e-12
+ > solveNoBcgstab iter, res_max: 9 2.38089e-05 1.66232e-05 4.44513e-12
+ > solveNoBcgstab iter, res_max: 12 3.04218e-06 9.38169e-06 4.44469e-12
+ > solveNoBcgstab iter, res_max: 15 4.13574e-06 2.64025e-06 4.44424e-12
+ > solveNoBcgstab iter, res_max: 18 1.32319e-07 2.48914e-06 4.44379e-12
+ > solveNoBcgstab iter, res_max: 21 9.12466e-07 1.57211e-06 4.44334e-12
+ > solveNoBcgstab iter, res_max: 24 2.5552e-06 3.24228e-05 4.44289e-12
+ > solveNoBcgstab iter, res_max: 27 2.09758e-05 1.33991e-05 4.44244e-12
+ > solveNoBcgstab iter, res_max: 30 2.41617e-06 4.74048e-05 4.44199e-12
+ > solveNoBcgstab iter, res_max: 33 1.35084e-05 3.6569e-06 4.44155e-12
+ > solveNoBcgstab iter, res_max: 36 1.97189e-05 5.7334e-05 4.4411e-12
+ > solveNoBcgstab iter, res_max: 39 8.70627e-06 1.46067e-06 4.44065e-12
+ > solveNoBcgstab iter, res_max: 42 6.30642e-07 8.34894e-07 4.4402e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 5.25802e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    6.140560e-02                 1.163336e-04
+    Cycle  1   1.103245e-03    0.017967     2.090109e-06 
+    Cycle  2   2.091200e-04    0.189550     3.961801e-07 
+
+
+ Average Convergence Factor = 0.058357
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 32.8739
+
+----------------------------------------------------------
+ starting step: 400 time: 443.393 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000224806 0.00274831 4.42053e-12
+ > solveNoBcgstab iter, res_max: 6 2.81338e-05 0.000121488 4.42009e-12
+ > solveNoBcgstab iter, res_max: 9 7.95735e-06 1.80576e-05 4.41965e-12
+ > solveNoBcgstab iter, res_max: 12 1.00442e-06 1.33915e-06 4.41921e-12
+ > solveNoBcgstab iter, res_max: 15 7.08094e-07 6.71795e-07 4.41877e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.55795e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    5.216641e-02                 9.988773e-05
+    Cycle  1   9.942426e-04    0.019059     1.903766e-06 
+    Cycle  2   1.898493e-04    0.190949     3.635215e-07 
+
+
+ Average Convergence Factor = 0.060327
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 26.5863
+
+----------------------------------------------------------
+ starting step: 500 time: 444.093 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000208322 0.00257849 4.39229e-12
+ > solveNoBcgstab iter, res_max: 6 2.59472e-05 0.000109466 4.39185e-12
+ > solveNoBcgstab iter, res_max: 9 6.38856e-06 1.70043e-05 4.39142e-12
+ > solveNoBcgstab iter, res_max: 12 2.98858e-07 2.22502e-06 4.39098e-12
+ > solveNoBcgstab iter, res_max: 15 3.2046e-06 2.31166e-07 4.39054e-12
+ > solveNoBcgstab iter, res_max: 18 2.91617e-07 2.78749e-06 4.39011e-12
+ > solveNoBcgstab iter, res_max: 21 6.87295e-07 1.29798e-06 4.38967e-12
+ > solveNoBcgstab iter, res_max: 24 9.64016e-06 4.67534e-05 4.38923e-12
+ > solveNoBcgstab iter, res_max: 27 1.48797e-06 4.11818e-05 4.3888e-12
+ > solveNoBcgstab iter, res_max: 30 1.33222e-05 1.07264e-05 4.38836e-12
+ > solveNoBcgstab iter, res_max: 33 2.62161e-05 5.68145e-06 4.38793e-12
+ > solveNoBcgstab iter, res_max: 36 7.85111e-07 8.36958e-05 4.38749e-12
+ > solveNoBcgstab iter, res_max: 39 3.50348e-05 3.02687e-05 4.38706e-12
+ > solveNoBcgstab iter, res_max: 42 8.70174e-07 3.81133e-05 4.38662e-12
+ > solveNoBcgstab iter, res_max: 45 4.89912e-06 7.21091e-06 4.38619e-12
+ > solveNoBcgstab iter, res_max: 48 1.29368e-06 2.74046e-06 4.38575e-12
+ > solveNoBcgstab iter, res_max: 51 2.17225e-07 1.67858e-06 4.38532e-12
+ > solveNoBcgstab iter, res_max: 54 1.85451e-07 1.18207e-07 4.38488e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -2.27374e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    4.807408e-02                 9.294398e-05
+    Cycle  1   9.198505e-04    0.019134     1.778392e-06 
+    Cycle  2   1.758172e-04    0.191137     3.399160e-07 
+
+
+ Average Convergence Factor = 0.060475
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 23.9915
+
+----------------------------------------------------------
+ starting step: 600 time: 444.793 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000194888 0.00244965 4.36652e-12
+ > solveNoBcgstab iter, res_max: 6 2.45365e-05 0.000104166 4.36609e-12
+ > solveNoBcgstab iter, res_max: 9 5.67924e-06 1.6377e-05 4.36565e-12
+ > solveNoBcgstab iter, res_max: 12 2.04088e-07 6.78372e-07 4.36522e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -1.42109e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    4.461019e-02                 8.702501e-05
+    Cycle  1   8.591709e-04    0.019260     1.676060e-06 
+    Cycle  2   1.643793e-04    0.191323     3.206690e-07 
+
+
+ Average Convergence Factor = 0.060702
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2356
+
+----------------------------------------------------------
+ starting step: 700 time: 445.493 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000183051 0.00232278 4.34573e-12
+ > solveNoBcgstab iter, res_max: 6 2.31531e-05 9.87195e-05 4.3453e-12
+ > solveNoBcgstab iter, res_max: 9 5.217e-06 1.56384e-05 4.34488e-12
+ > solveNoBcgstab iter, res_max: 12 1.68555e-07 5.55508e-07 4.34445e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -8.52651e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    4.176518e-02                 8.216637e-05
+    Cycle  1   8.069231e-04    0.019320     1.587494e-06 
+    Cycle  2   1.544588e-04    0.191417     3.038733e-07 
+
+
+ Average Convergence Factor = 0.060813
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2453
+
+----------------------------------------------------------
+ starting step: 800 time: 446.193 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000172265 0.00220203 4.32968e-12
+ > solveNoBcgstab iter, res_max: 6 2.18454e-05 9.33838e-05 4.32926e-12
+ > solveNoBcgstab iter, res_max: 9 4.86268e-06 1.48593e-05 4.32883e-12
+ > solveNoBcgstab iter, res_max: 12 1.47352e-07 4.97037e-07 4.32841e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 4.26326e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    3.927370e-02                 7.788509e-05
+    Cycle  1   7.600142e-04    0.019352     1.507212e-06 
+    Cycle  2   1.455216e-04    0.191472     2.885891e-07 
+
+
+ Average Convergence Factor = 0.060871
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2417
+
+----------------------------------------------------------
+ starting step: 900 time: 446.893 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000162322 0.00208651 4.30743e-12
+ > solveNoBcgstab iter, res_max: 6 2.06141e-05 8.82614e-05 4.30701e-12
+ > solveNoBcgstab iter, res_max: 9 4.56223e-06 1.40783e-05 4.30659e-12
+ > solveNoBcgstab iter, res_max: 12 1.33267e-07 4.54996e-07 4.30617e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.41585e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    3.701561e-02                 7.396610e-05
+    Cycle  1   7.169088e-04    0.019368     1.432557e-06 
+    Cycle  2   1.372921e-04    0.191506     2.743427e-07 
+
+
+ Average Convergence Factor = 0.060902
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2389
+
+----------------------------------------------------------
+ starting step: 1000 time: 447.593 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000153074 0.0019761 4.28265e-12
+ > solveNoBcgstab iter, res_max: 6 1.94556e-05 8.33848e-05 4.28224e-12
+ > solveNoBcgstab iter, res_max: 9 4.29382e-06 1.33177e-05 4.28182e-12
+ > solveNoBcgstab iter, res_max: 12 1.2289e-07 4.22353e-07 4.28141e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.84217e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    3.492949e-02                 7.030256e-05
+    Cycle  1   6.767852e-04    0.019376     1.362165e-06 
+    Cycle  2   1.296226e-04    0.191527     2.608914e-07 
+
+
+ Average Convergence Factor = 0.060918
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2471
+
+----------------------------------------------------------
+ starting step: 1100 time: 448.293 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000144429 0.00187075 4.2592e-12
+ > solveNoBcgstab iter, res_max: 6 1.83658e-05 7.87649e-05 4.25879e-12
+ > solveNoBcgstab iter, res_max: 9 4.04776e-06 1.25885e-05 4.25838e-12
+ > solveNoBcgstab iter, res_max: 12 1.14548e-07 3.95169e-07 4.25797e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 1.42109e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    3.298188e-02                 6.683915e-05
+    Cycle  1   6.391779e-04    0.019380     1.295321e-06 
+    Cycle  2   1.224289e-04    0.191541     2.481072e-07 
+
+
+ Average Convergence Factor = 0.060926
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2454
+
+----------------------------------------------------------
+ starting step: 1200 time: 448.993 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000136322 0.00177039 4.23739e-12
+ > solveNoBcgstab iter, res_max: 6 1.73401e-05 7.43987e-05 4.23698e-12
+ > solveNoBcgstab iter, res_max: 9 3.81918e-06 1.1895e-05 4.23658e-12
+ > solveNoBcgstab iter, res_max: 12 1.07401e-07 3.71346e-07 4.23617e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 7.81597e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    3.115335e-02                 6.354629e-05
+    Cycle  1   6.037986e-04    0.019382     1.231622e-06 
+    Cycle  2   1.156582e-04    0.191551     2.359186e-07 
+
+
+ Average Convergence Factor = 0.060931
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2401
+
+----------------------------------------------------------
+ starting step: 1300 time: 449.693 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000128705 0.00167492 4.2087e-12
+ > solveNoBcgstab iter, res_max: 6 1.63743e-05 7.02764e-05 4.2083e-12
+ > solveNoBcgstab iter, res_max: 9 3.60533e-06 1.1238e-05 4.2079e-12
+ > solveNoBcgstab iter, res_max: 12 1.01026e-07 3.49788e-07 4.20749e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 6.25278e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.943148e-02                 6.040711e-05
+    Cycle  1   5.704496e-04    0.019382     1.170828e-06 
+    Cycle  2   1.092743e-04    0.191558     2.242818e-07 
+
+
+ Average Convergence Factor = 0.060933
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2478
+
+----------------------------------------------------------
+ starting step: 1400 time: 450.393 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000121537 0.00158422 4.18497e-12
+ > solveNoBcgstab iter, res_max: 6 1.54644e-05 6.63857e-05 4.18457e-12
+ > solveNoBcgstab iter, res_max: 9 3.40449e-06 1.06169e-05 4.18417e-12
+ > solveNoBcgstab iter, res_max: 12 9.51983e-08 3.2991e-07 4.18378e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 7.81597e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.780750e-02                 5.741101e-05
+    Cycle  1   5.389812e-04    0.019383     1.112774e-06 
+    Cycle  2   1.032491e-04    0.191563     2.131668e-07 
+
+
+ Average Convergence Factor = 0.060934
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.246
+
+----------------------------------------------------------
+ starting step: 1500 time: 451.093 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000114785 0.00149815 4.15892e-12
+ > solveNoBcgstab iter, res_max: 6 1.46066e-05 6.27138e-05 4.15853e-12
+ > solveNoBcgstab iter, res_max: 9 3.21546e-06 1.00302e-05 4.15814e-12
+ > solveNoBcgstab iter, res_max: 12 8.9798e-08 3.11387e-07 4.15774e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.98428e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.627456e-02                 5.455051e-05
+    Cycle  1   5.092701e-04    0.019383     1.057332e-06 
+    Cycle  2   9.755960e-05    0.191567     2.025505e-07 
+
+
+ Average Convergence Factor = 0.060935
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2475
+
+----------------------------------------------------------
+ starting step: 1600 time: 451.793 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.00010842 0.00141654 4.13361e-12
+ > solveNoBcgstab iter, res_max: 6 1.37976e-05 5.92479e-05 4.13322e-12
+ > solveNoBcgstab iter, res_max: 9 3.03733e-06 9.47617e-06 4.13283e-12
+ > solveNoBcgstab iter, res_max: 12 8.47542e-08 2.94026e-07 4.13245e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.41585e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.482689e-02                 5.181965e-05
+    Cycle  1   4.812092e-04    0.019383     1.004399e-06 
+    Cycle  2   9.218552e-05    0.191571     1.924132e-07 
+
+
+ Average Convergence Factor = 0.060935
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2403
+
+----------------------------------------------------------
+ starting step: 1700 time: 452.493 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000110453 0.00147878 4.10012e-12
+ > solveNoBcgstab iter, res_max: 6 1.45423e-05 6.61952e-05 4.09974e-12
+ > solveNoBcgstab iter, res_max: 9 3.89823e-06 9.40612e-06 4.09936e-12
+ > solveNoBcgstab iter, res_max: 12 1.64223e-06 2.02724e-06 4.09897e-12
+ > solveNoBcgstab iter, res_max: 15 3.92114e-08 7.15028e-07 4.09859e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.13163e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.343934e-02                 4.917115e-05
+    Cycle  1   5.557550e-04    0.023710     1.165865e-06 
+    Cycle  2   1.091007e-04    0.196311     2.288720e-07 
+
+
+ Average Convergence Factor = 0.068225
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 21.8787
+
+----------------------------------------------------------
+ starting step: 1800 time: 453.193 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 0.000104352 0.00139763 4.06946e-12
+ > solveNoBcgstab iter, res_max: 6 1.37489e-05 6.2431e-05 4.06909e-12
+ > solveNoBcgstab iter, res_max: 9 3.67785e-06 8.88928e-06 4.06871e-12
+ > solveNoBcgstab iter, res_max: 12 1.46749e-06 1.89913e-06 4.06833e-12
+ > solveNoBcgstab iter, res_max: 15 3.28637e-08 5.84859e-07 4.06795e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 4.54747e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.214862e-02                 4.668680e-05
+    Cycle  1   5.251446e-04    0.023710     1.106946e-06 
+    Cycle  2   1.030919e-04    0.196311     2.173061e-07 
+
+
+ Average Convergence Factor = 0.068224
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 20.6946
+
+----------------------------------------------------------
+ starting step: 1900 time: 453.893 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 9.85841e-05 0.00132109 4.04204e-12
+ > solveNoBcgstab iter, res_max: 6 1.2995e-05 5.89948e-05 4.04166e-12
+ > solveNoBcgstab iter, res_max: 9 3.47465e-06 8.39802e-06 4.04129e-12
+ > solveNoBcgstab iter, res_max: 12 1.37665e-06 1.79524e-06 4.04091e-12
+ > solveNoBcgstab iter, res_max: 15 3.0536e-08 5.4421e-07 4.04054e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.70006e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.092965e-02                 4.431862e-05
+    Cycle  1   4.962294e-04    0.023709     1.050768e-06 
+    Cycle  2   9.741559e-05    0.196312     2.062779e-07 
+
+
+ Average Convergence Factor = 0.068223
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 20.7012
+
+----------------------------------------------------------
+ starting step: 2000 time: 454.593 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 9.03251e-05 0.00120179 4.00536e-12
+ > solveNoBcgstab iter, res_max: 6 1.18437e-05 5.02919e-05 4.00499e-12
+ > solveNoBcgstab iter, res_max: 9 2.81258e-06 7.73565e-06 4.00462e-12
+ > solveNoBcgstab iter, res_max: 12 1.31049e-07 4.01276e-07 4.00425e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 8.52651e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.978457e-02                 4.207531e-05
+    Cycle  1   4.745775e-04    0.023987     1.009271e-06 
+    Cycle  2   9.376343e-05    0.197572     1.994041e-07 
+
+
+ Average Convergence Factor = 0.068842
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 20.6669
+
+----------------------------------------------------------
+ starting step: 2100 time: 455.293 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 8.16065e-05 0.00106947 3.97866e-12
+ > solveNoBcgstab iter, res_max: 6 1.03961e-05 4.46624e-05 3.9783e-12
+ > solveNoBcgstab iter, res_max: 9 2.2889e-06 7.14149e-06 3.97793e-12
+ > solveNoBcgstab iter, res_max: 12 6.3526e-08 2.21054e-07 3.97756e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.97904e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.870261e-02                 3.993774e-05
+    Cycle  1   4.261756e-04    0.022787     9.100598e-07 
+
+
+ Average Convergence Factor = 0.022787
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.3927
+
+----------------------------------------------------------
+ starting step: 2200 time: 455.993 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 7.70957e-05 0.00101018 3.95991e-12
+ > solveNoBcgstab iter, res_max: 6 9.81395e-06 4.21527e-05 3.95954e-12
+ > solveNoBcgstab iter, res_max: 9 2.15981e-06 6.74269e-06 3.95918e-12
+ > solveNoBcgstab iter, res_max: 12 6.00845e-08 2.08733e-07 3.95881e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 6.53699e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.767852e-02                 3.789802e-05
+    Cycle  1   4.027119e-04    0.022780     8.633067e-07 
+
+
+ Average Convergence Factor = 0.022780
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2128
+
+----------------------------------------------------------
+ starting step: 2300 time: 456.693 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 7.28437e-05 0.000954732 3.92007e-12
+ > solveNoBcgstab iter, res_max: 6 9.27435e-06 3.98264e-05 3.91971e-12
+ > solveNoBcgstab iter, res_max: 9 2.04076e-06 6.37067e-06 3.91936e-12
+ > solveNoBcgstab iter, res_max: 12 5.67982e-08 1.97292e-07 3.919e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -1.98952e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.670563e-02                 3.594478e-05
+    Cycle  1   3.805434e-04    0.022779     8.187986e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2207
+
+----------------------------------------------------------
+ starting step: 2400 time: 457.393 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 6.88299e-05 0.000902269 3.89485e-12
+ > solveNoBcgstab iter, res_max: 6 8.76502e-06 3.76337e-05 3.8945e-12
+ > solveNoBcgstab iter, res_max: 9 1.92837e-06 6.01987e-06 3.89414e-12
+ > solveNoBcgstab iter, res_max: 12 5.36621e-08 1.86417e-07 3.89379e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 4.9738e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.578592e-02                 3.408494e-05
+    Cycle  1   3.595945e-04    0.022779     7.764358e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2161
+
+----------------------------------------------------------
+ starting step: 2500 time: 458.093 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 6.50377e-05 0.00085267 3.86637e-12
+ > solveNoBcgstab iter, res_max: 6 8.28326e-06 3.5561e-05 3.86602e-12
+ > solveNoBcgstab iter, res_max: 9 1.82215e-06 5.68832e-06 3.86567e-12
+ > solveNoBcgstab iter, res_max: 12 5.07034e-08 1.76147e-07 3.86532e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.55271e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.491695e-02                 3.231569e-05
+    Cycle  1   3.397992e-04    0.022779     7.361321e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2165
+
+----------------------------------------------------------
+ starting step: 2600 time: 458.793 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 6.14551e-05 0.000805785 3.83355e-12
+ > solveNoBcgstab iter, res_max: 6 7.82785e-06 3.36027e-05 3.8332e-12
+ > solveNoBcgstab iter, res_max: 9 1.72179e-06 5.37507e-06 3.83285e-12
+ > solveNoBcgstab iter, res_max: 12 4.79082e-08 1.66443e-07 3.83251e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.2685e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.409582e-02                 3.063300e-05
+    Cycle  1   3.210939e-04    0.022779     6.978007e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2156
+
+----------------------------------------------------------
+ starting step: 2700 time: 459.493 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 5.80703e-05 0.000761468 3.80208e-12
+ > solveNoBcgstab iter, res_max: 6 7.39738e-06 3.17524e-05 3.80173e-12
+ > solveNoBcgstab iter, res_max: 9 1.62697e-06 5.0791e-06 3.80139e-12
+ > solveNoBcgstab iter, res_max: 12 4.52676e-08 1.57275e-07 3.80105e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -1.13687e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.331989e-02                 2.903317e-05
+    Cycle  1   3.034185e-04    0.022779     6.613572e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2191
+
+----------------------------------------------------------
+ starting step: 2800 time: 460.193 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 5.48724e-05 0.000719582 3.77612e-12
+ > solveNoBcgstab iter, res_max: 6 6.99051e-06 3.00041e-05 3.77579e-12
+ > solveNoBcgstab iter, res_max: 9 1.53738e-06 4.79945e-06 3.77545e-12
+ > solveNoBcgstab iter, res_max: 12 4.2773e-08 1.48612e-07 3.77511e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.2685e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.258668e-02                 2.751262e-05
+    Cycle  1   2.867163e-04    0.022779     6.267198e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2151
+
+----------------------------------------------------------
+ starting step: 2900 time: 460.893 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 5.18508e-05 0.000679994 3.74422e-12
+ > solveNoBcgstab iter, res_max: 6 6.60595e-06 2.83522e-05 3.74388e-12
+ > solveNoBcgstab iter, res_max: 9 1.45273e-06 4.53521e-06 3.74355e-12
+ > solveNoBcgstab iter, res_max: 12 4.04161e-08 1.40427e-07 3.74321e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 6.53699e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.189383e-02                 2.606786e-05
+    Cycle  1   2.709336e-04    0.022779     5.938087e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2167
+
+----------------------------------------------------------
+ starting step: 3000 time: 461.593 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 4.89959e-05 0.00064258 3.71181e-12
+ > solveNoBcgstab iter, res_max: 6 6.2425e-06 2.67913e-05 3.71148e-12
+ > solveNoBcgstab iter, res_max: 9 1.37274e-06 4.28553e-06 3.71115e-12
+ > solveNoBcgstab iter, res_max: 12 3.81893e-08 1.32694e-07 3.71082e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.2685e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.123913e-02                 2.469549e-05
+    Cycle  1   2.560198e-04    0.022779     5.625469e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2141
+
+----------------------------------------------------------
+ starting step: 3100 time: 462.293 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 4.62983e-05 0.000607222 3.68746e-12
+ > solveNoBcgstab iter, res_max: 6 5.89902e-06 2.53163e-05 3.68713e-12
+ > solveNoBcgstab iter, res_max: 9 1.29717e-06 4.0496e-06 3.6868e-12
+ > solveNoBcgstab iter, res_max: 12 3.60852e-08 1.25386e-07 3.68647e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 1.98952e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.062046e-02                 2.339225e-05
+    Cycle  1   2.419271e-04    0.022779     5.328599e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2143
+
+----------------------------------------------------------
+ starting step: 3200 time: 462.993 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 4.37494e-05 0.000573807 3.65186e-12
+ > solveNoBcgstab iter, res_max: 6 5.57441e-06 2.39227e-05 3.65154e-12
+ > solveNoBcgstab iter, res_max: 9 1.22575e-06 3.82667e-06 3.65122e-12
+ > solveNoBcgstab iter, res_max: 12 3.40971e-08 1.18481e-07 3.6509e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.97904e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.003586e-02                 2.215498e-05
+    Cycle  1   2.286101e-04    0.022779     5.046756e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2323
+
+----------------------------------------------------------
+ starting step: 3300 time: 463.693 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 4.13408e-05 0.000542228 3.62864e-12
+ > solveNoBcgstab iter, res_max: 6 5.26764e-06 2.26057e-05 3.62832e-12
+ > solveNoBcgstab iter, res_max: 9 1.15827e-06 3.61601e-06 3.628e-12
+ > solveNoBcgstab iter, res_max: 12 3.22186e-08 1.11956e-07 3.62768e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -1.7053e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    9.483433e-03                 2.098063e-05
+    Cycle  1   2.160262e-04    0.022779     4.779245e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.219
+
+----------------------------------------------------------
+ starting step: 3400 time: 464.393 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 3.9065e-05 0.000512387 3.59625e-12
+ > solveNoBcgstab iter, res_max: 6 4.97775e-06 2.13613e-05 3.59593e-12
+ > solveNoBcgstab iter, res_max: 9 1.09451e-06 3.41696e-06 3.59561e-12
+ > solveNoBcgstab iter, res_max: 12 3.04435e-08 1.05791e-07 3.5953e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 4.68958e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    8.961418e-03                 1.986625e-05
+    Cycle  1   2.041350e-04    0.022779     4.525397e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.219
+
+----------------------------------------------------------
+ starting step: 3500 time: 465.093 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 3.69145e-05 0.000484187 3.56387e-12
+ > solveNoBcgstab iter, res_max: 6 4.70379e-06 2.01854e-05 3.56356e-12
+ > solveNoBcgstab iter, res_max: 9 1.03425e-06 3.22886e-06 3.56324e-12
+ > solveNoBcgstab iter, res_max: 12 2.87661e-08 9.99646e-08 3.56293e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 4.68958e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    8.468138e-03                 1.880903e-05
+    Cycle  1   1.928984e-04    0.022779     4.284569e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.22
+
+----------------------------------------------------------
+ starting step: 3600 time: 465.793 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 3.48824e-05 0.000457538 3.53412e-12
+ > solveNoBcgstab iter, res_max: 6 4.44491e-06 1.90743e-05 3.53381e-12
+ > solveNoBcgstab iter, res_max: 9 9.77316e-07 3.05113e-06 3.5335e-12
+ > solveNoBcgstab iter, res_max: 12 2.71811e-08 9.44593e-08 3.53319e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.69482e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    8.002011e-03                 1.780623e-05
+    Cycle  1   1.822804e-04    0.022779     4.056139e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2132
+
+----------------------------------------------------------
+ starting step: 3700 time: 466.493 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 3.29622e-05 0.000432355 3.50468e-12
+ > solveNoBcgstab iter, res_max: 6 4.20026e-06 1.80243e-05 3.50437e-12
+ > solveNoBcgstab iter, res_max: 9 9.23515e-07 2.88317e-06 3.50407e-12
+ > solveNoBcgstab iter, res_max: 12 2.56833e-08 8.92569e-08 3.50376e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -8.52651e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    7.561543e-03                 1.685526e-05
+    Cycle  1   1.722468e-04    0.022779     3.839513e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2158
+
+----------------------------------------------------------
+ starting step: 3800 time: 467.193 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 3.11477e-05 0.000408558 3.47103e-12
+ > solveNoBcgstab iter, res_max: 6 3.96908e-06 1.70321e-05 3.47073e-12
+ > solveNoBcgstab iter, res_max: 9 8.72675e-07 2.72447e-06 3.47043e-12
+ > solveNoBcgstab iter, res_max: 12 2.42679e-08 8.43408e-08 3.47013e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.41585e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    7.145321e-03                 1.595360e-05
+    Cycle  1   1.627655e-04    0.022779     3.634120e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2139
+
+----------------------------------------------------------
+ starting step: 3900 time: 467.893 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 2.94331e-05 0.00038607 3.44437e-12
+ > solveNoBcgstab iter, res_max: 6 3.75062e-06 1.60946e-05 3.44407e-12
+ > solveNoBcgstab iter, res_max: 9 8.24634e-07 2.5745e-06 3.44378e-12
+ > solveNoBcgstab iter, res_max: 12 2.29303e-08 7.96952e-08 3.44348e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.84217e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    6.752009e-03                 1.509885e-05
+    Cycle  1   1.538061e-04    0.022779     3.439414e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2165
+
+----------------------------------------------------------
+ starting step: 4000 time: 468.593 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 2.7813e-05 0.00036482 3.40601e-12
+ > solveNoBcgstab iter, res_max: 6 3.54418e-06 1.52087e-05 3.40572e-12
+ > solveNoBcgstab iter, res_max: 9 7.79238e-07 2.43279e-06 3.40542e-12
+ > solveNoBcgstab iter, res_max: 12 2.16663e-08 7.53051e-08 3.40513e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 4.40536e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    6.380348e-03                 1.428870e-05
+    Cycle  1   1.453399e-04    0.022779     3.254868e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2185
+
+----------------------------------------------------------
+ starting step: 4100 time: 469.293 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 2.6282e-05 0.00034474 3.37286e-12
+ > solveNoBcgstab iter, res_max: 6 3.3491e-06 1.43715e-05 3.37257e-12
+ > solveNoBcgstab iter, res_max: 9 7.36341e-07 2.29887e-06 3.37228e-12
+ > solveNoBcgstab iter, res_max: 12 2.04717e-08 7.11566e-08 3.37199e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 1.27898e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    6.029144e-03                 1.352096e-05
+    Cycle  1   1.373398e-04    0.022779     3.079982e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2144
+
+----------------------------------------------------------
+ starting step: 4200 time: 469.993 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 2.48353e-05 0.000325764 3.34473e-12
+ > solveNoBcgstab iter, res_max: 6 3.16475e-06 1.35804e-05 3.34444e-12
+ > solveNoBcgstab iter, res_max: 9 6.95805e-07 2.17233e-06 3.34416e-12
+ > solveNoBcgstab iter, res_max: 12 1.93429e-08 6.72363e-08 3.34387e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 8.52651e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    5.697273e-03                 1.279351e-05
+    Cycle  1   1.297800e-04    0.022779     2.914274e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2198
+
+----------------------------------------------------------
+ starting step: 4300 time: 470.693 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 2.34682e-05 0.000307833 3.3149e-12
+ > solveNoBcgstab iter, res_max: 6 2.99056e-06 1.28329e-05 3.31462e-12
+ > solveNoBcgstab iter, res_max: 9 6.575e-07 2.05276e-06 3.31433e-12
+ > solveNoBcgstab iter, res_max: 12 1.8276e-08 6.35315e-08 3.31405e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 4.40536e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    5.383669e-03                 1.210435e-05
+    Cycle  1   1.226363e-04    0.022779     2.757287e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.214
+
+----------------------------------------------------------
+ starting step: 4400 time: 471.393 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 2.21764e-05 0.000290889 3.28131e-12
+ > solveNoBcgstab iter, res_max: 6 2.82594e-06 1.21265e-05 3.2811e-12
+ > solveNoBcgstab iter, res_max: 9 6.21303e-07 1.93977e-06 3.28089e-12
+ > solveNoBcgstab iter, res_max: 12 1.72678e-08 6.00305e-08 3.28068e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.97904e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    5.087328e-03                 1.145154e-05
+    Cycle  1   1.158858e-04    0.022779     2.608582e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2126
+
+----------------------------------------------------------
+ starting step: 4500 time: 472.093 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 2.09557e-05 0.000274877 3.28518e-12
+ > solveNoBcgstab iter, res_max: 6 2.67039e-06 1.1459e-05 3.28497e-12
+ > solveNoBcgstab iter, res_max: 9 5.87099e-07 1.833e-06 3.28476e-12
+ > solveNoBcgstab iter, res_max: 12 1.6315e-08 5.6722e-08 3.28454e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.13163e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    4.807299e-03                 1.083325e-05
+    Cycle  1   1.095070e-04    0.022779     2.467740e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2138
+
+----------------------------------------------------------
+ starting step: 4600 time: 472.793 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.98022e-05 0.000259747 3.28438e-12
+ > solveNoBcgstab iter, res_max: 6 2.52341e-06 1.08282e-05 3.28417e-12
+ > solveNoBcgstab iter, res_max: 9 5.54777e-07 1.7321e-06 3.28396e-12
+ > solveNoBcgstab iter, res_max: 12 1.54144e-08 5.35953e-08 3.28375e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 4.9738e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    4.542683e-03                 1.024773e-05
+    Cycle  1   1.034792e-04    0.022779     2.334362e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2201
+
+----------------------------------------------------------
+ starting step: 4700 time: 473.493 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.87122e-05 0.000245449 3.28732e-12
+ > solveNoBcgstab iter, res_max: 6 2.38451e-06 1.02322e-05 3.28711e-12
+ > solveNoBcgstab iter, res_max: 9 5.24234e-07 1.63676e-06 3.2869e-12
+ > solveNoBcgstab iter, res_max: 12 1.45633e-08 5.06405e-08 3.28669e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 5.68434e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    4.292634e-03                 9.693300e-06
+    Cycle  1   9.778324e-05    0.022779     2.208067e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.213
+
+----------------------------------------------------------
+ starting step: 4800 time: 474.193 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.76822e-05 0.000231939 3.29208e-12
+ > solveNoBcgstab iter, res_max: 6 2.25326e-06 9.66898e-06 3.29187e-12
+ > solveNoBcgstab iter, res_max: 9 4.95372e-07 1.54667e-06 3.29165e-12
+ > solveNoBcgstab iter, res_max: 12 1.3759e-08 4.78481e-08 3.29144e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 5.11591e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    4.056348e-03                 9.168374e-06
+    Cycle  1   9.240081e-05    0.022779     2.088492e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.216
+
+----------------------------------------------------------
+ starting step: 4900 time: 474.893 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.67089e-05 0.000219172 3.29271e-12
+ > solveNoBcgstab iter, res_max: 6 2.12923e-06 9.13675e-06 3.2925e-12
+ > solveNoBcgstab iter, res_max: 9 4.68099e-07 1.46153e-06 3.29229e-12
+ > solveNoBcgstab iter, res_max: 12 1.29987e-08 4.52091e-08 3.29208e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.2685e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    3.833068e-03                 8.671431e-06
+    Cycle  1   8.731466e-05    0.022779     1.975292e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2138
+
+----------------------------------------------------------
+ starting step: 5000 time: 475.593 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.57891e-05 0.000207108 3.2928e-12
+ > solveNoBcgstab iter, res_max: 6 2.01203e-06 8.63382e-06 3.29259e-12
+ > solveNoBcgstab iter, res_max: 9 4.42326e-07 1.38109e-06 3.29238e-12
+ > solveNoBcgstab iter, res_max: 12 1.22801e-08 4.27151e-08 3.29217e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -1.27898e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    3.622079e-03                 8.201027e-06
+    Cycle  1   8.250847e-05    0.022779     1.868138e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.213
+
+----------------------------------------------------------
+ starting step: 5100 time: 476.293 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.492e-05 0.000195708 3.29807e-12
+ > solveNoBcgstab iter, res_max: 6 1.90127e-06 8.15858e-06 3.29786e-12
+ > solveNoBcgstab iter, res_max: 9 4.17972e-07 1.30507e-06 3.29765e-12
+ > solveNoBcgstab iter, res_max: 12 1.16009e-08 4.03581e-08 3.29744e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 5.68434e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    3.422704e-03                 7.755787e-06
+    Cycle  1   7.796684e-05    0.022779     1.766715e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2187
+
+----------------------------------------------------------
+ starting step: 5200 time: 476.993 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.40988e-05 0.000184935 3.29573e-12
+ > solveNoBcgstab iter, res_max: 6 1.79662e-06 7.70949e-06 3.29552e-12
+ > solveNoBcgstab iter, res_max: 9 3.94958e-07 1.23323e-06 3.29531e-12
+ > solveNoBcgstab iter, res_max: 12 1.09589e-08 3.81304e-08 3.2951e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 5.82645e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    3.234303e-03                 7.334401e-06
+    Cycle  1   7.367520e-05    0.022779     1.670726e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2156
+
+----------------------------------------------------------
+ starting step: 5300 time: 477.693 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.33227e-05 0.000174756 3.29602e-12
+ > solveNoBcgstab iter, res_max: 6 1.69773e-06 7.28513e-06 3.29582e-12
+ > solveNoBcgstab iter, res_max: 9 3.7321e-07 1.16535e-06 3.29561e-12
+ > solveNoBcgstab iter, res_max: 12 1.03521e-08 3.6025e-08 3.2954e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.41585e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    3.056273e-03                 6.935626e-06
+    Cycle  1   6.961978e-05    0.022779     1.579888e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2177
+
+----------------------------------------------------------
+ starting step: 5400 time: 478.393 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.25894e-05 0.000165136 3.29309e-12
+ > solveNoBcgstab iter, res_max: 6 1.60428e-06 6.88412e-06 3.29288e-12
+ > solveNoBcgstab iter, res_max: 9 3.52659e-07 1.10121e-06 3.29267e-12
+ > solveNoBcgstab iter, res_max: 12 9.77844e-09 3.4035e-08 3.29246e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 6.6791e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.888042e-03                 6.558279e-06
+    Cycle  1   6.578760e-05    0.022779     1.493931e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2133
+
+----------------------------------------------------------
+ starting step: 5500 time: 479.093 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.18964e-05 0.000156046 3.29054e-12
+ > solveNoBcgstab iter, res_max: 6 1.51597e-06 6.50519e-06 3.29033e-12
+ > solveNoBcgstab iter, res_max: 9 3.33239e-07 1.0406e-06 3.29012e-12
+ > solveNoBcgstab iter, res_max: 12 9.23614e-09 3.21542e-08 3.28991e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -1.42109e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.729071e-03                 6.201234e-06
+    Cycle  1   6.216636e-05    0.022779     1.412598e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 19.2108
+
+----------------------------------------------------------
+ starting step: 5600 time: 479.793 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.12355e-05 0.00014727 3.28749e-12
+ > solveNoBcgstab iter, res_max: 6 1.43357e-06 6.1418e-06 3.28728e-12
+ > solveNoBcgstab iter, res_max: 9 3.14991e-07 9.84499e-07 3.28708e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 4.26326e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.578831e-03                 5.863379e-06
+    Cycle  1   5.874484e-05    0.022780     1.335656e-07 
+
+
+ Average Convergence Factor = 0.022780
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 18.3626
+
+----------------------------------------------------------
+ starting step: 5700 time: 480.493 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.06171e-05 0.00013916 3.28712e-12
+ > solveNoBcgstab iter, res_max: 6 1.35459e-06 5.80344e-06 3.28691e-12
+ > solveNoBcgstab iter, res_max: 9 2.97606e-07 9.30313e-07 3.28671e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.12639e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.436920e-03                 5.543879e-06
+    Cycle  1   5.551089e-05    0.022779     1.262847e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.4812
+
+----------------------------------------------------------
+ starting step: 5800 time: 481.193 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 1.00327e-05 0.000131502 3.28324e-12
+ > solveNoBcgstab iter, res_max: 6 1.28005e-06 5.48408e-06 3.28303e-12
+ > solveNoBcgstab iter, res_max: 9 2.81223e-07 8.79114e-07 3.28282e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 4.9738e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.302766e-03                 5.241511e-06
+    Cycle  1   5.245535e-05    0.022779     1.193978e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.2951
+
+----------------------------------------------------------
+ starting step: 5900 time: 481.893 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 9.48045e-06 0.000124263 3.28786e-12
+ > solveNoBcgstab iter, res_max: 6 1.2096e-06 5.18226e-06 3.28765e-12
+ > solveNoBcgstab iter, res_max: 9 2.65734e-07 8.30734e-07 3.28744e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.69482e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.176007e-03                 4.955508e-06
+    Cycle  1   4.956795e-05    0.022779     1.128831e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.3131
+
+----------------------------------------------------------
+ starting step: 6000 time: 482.593 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 8.9586e-06 0.000117423 3.28062e-12
+ > solveNoBcgstab iter, res_max: 6 1.14301e-06 4.897e-06 3.28042e-12
+ > solveNoBcgstab iter, res_max: 9 2.51096e-07 7.8501e-07 3.28021e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -2.84217e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    2.056230e-03                 4.684991e-06
+    Cycle  1   4.683951e-05    0.022779     1.067209e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.3306
+
+----------------------------------------------------------
+ starting step: 6100 time: 483.293 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 8.46548e-06 0.00011096 3.27776e-12
+ > solveNoBcgstab iter, res_max: 6 1.0801e-06 4.62745e-06 3.27755e-12
+ > solveNoBcgstab iter, res_max: 9 2.37263e-07 7.41804e-07 3.27735e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -2.84217e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.943046e-03                 4.429124e-06
+    Cycle  1   4.426125e-05    0.022779     1.008924e-07 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.3217
+
+----------------------------------------------------------
+ starting step: 6200 time: 483.993 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 7.9995e-06 0.000104852 3.27413e-12
+ > solveNoBcgstab iter, res_max: 6 1.02064e-06 4.37274e-06 3.27393e-12
+ > solveNoBcgstab iter, res_max: 9 2.24191e-07 7.00976e-07 3.27372e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 2.13163e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.836092e-03                 4.187128e-06
+    Cycle  1   4.182491e-05    0.022779     9.537988e-08 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.2807
+
+----------------------------------------------------------
+ starting step: 6300 time: 484.693 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 7.55917e-06 9.90805e-05 3.27147e-12
+ > solveNoBcgstab iter, res_max: 6 9.64464e-07 4.13204e-06 3.27127e-12
+ > solveNoBcgstab iter, res_max: 9 2.11838e-07 6.62396e-07 3.27106e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 8.3844e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.735025e-03                 3.958260e-06
+    Cycle  1   3.952268e-05    0.022779     9.016644e-08 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.2801
+
+----------------------------------------------------------
+ starting step: 6400 time: 485.393 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 7.14308e-06 9.36267e-05 3.27496e-12
+ > solveNoBcgstab iter, res_max: 6 9.11375e-07 3.90459e-06 3.27475e-12
+ > solveNoBcgstab iter, res_max: 9 2.00164e-07 6.2594e-07 3.27455e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 1.98952e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.639522e-03                 3.741819e-06
+    Cycle  1   3.734718e-05    0.022779     8.523606e-08 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.339
+
+----------------------------------------------------------
+ starting step: 6500 time: 486.093 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 6.7499e-06 8.8473e-05 3.26994e-12
+ > solveNoBcgstab iter, res_max: 6 8.61209e-07 3.68967e-06 3.26974e-12
+ > solveNoBcgstab iter, res_max: 9 1.89131e-07 5.9149e-07 3.26953e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 9.52127e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.549275e-03                 3.537139e-06
+    Cycle  1   3.529142e-05    0.022779     8.057358e-08 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.2874
+
+----------------------------------------------------------
+ starting step: 6600 time: 486.793 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 6.37835e-06 8.36031e-05 3.26597e-12
+ > solveNoBcgstab iter, res_max: 6 8.13804e-07 3.48657e-06 3.26576e-12
+ > solveNoBcgstab iter, res_max: 9 1.78706e-07 5.58938e-07 3.26556e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.41061e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.463996e-03                 3.343588e-06
+    Cycle  1   3.334883e-05    0.022779     7.616463e-08 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.2796
+
+----------------------------------------------------------
+ starting step: 6700 time: 487.493 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 6.02726e-06 7.90012e-05 3.26342e-12
+ > solveNoBcgstab iter, res_max: 6 7.69008e-07 3.29465e-06 3.26322e-12
+ > solveNoBcgstab iter, res_max: 9 1.68853e-07 5.28177e-07 3.26301e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 5.96856e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.383411e-03                 3.160569e-06
+    Cycle  1   3.151316e-05    0.022779     7.199558e-08 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.2801
+
+----------------------------------------------------------
+ starting step: 6800 time: 488.193 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 5.69549e-06 7.46526e-05 3.25631e-12
+ > solveNoBcgstab iter, res_max: 6 7.26679e-07 3.1133e-06 3.25611e-12
+ > solveNoBcgstab iter, res_max: 9 1.59542e-07 4.9911e-07 3.25591e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 1.84741e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.307262e-03                 2.987515e-06
+    Cycle  1   2.977853e-05    0.022779     6.805353e-08 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.2768
+
+----------------------------------------------------------
+ starting step: 6900 time: 488.893 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 5.38199e-06 7.05434e-05 3.25428e-12
+ > solveNoBcgstab iter, res_max: 6 6.86679e-07 2.94193e-06 3.25407e-12
+ > solveNoBcgstab iter, res_max: 9 1.50742e-07 4.71643e-07 3.25387e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -9.9476e-14
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.235305e-03                 2.823888e-06
+    Cycle  1   2.813939e-05    0.022779     6.432623e-08 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.277
+
+----------------------------------------------------------
+ starting step: 7000 time: 489.593 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 5.08574e-06 6.66604e-05 3.24743e-12
+ > solveNoBcgstab iter, res_max: 6 6.48881e-07 2.77999e-06 3.24723e-12
+ > solveNoBcgstab iter, res_max: 9 1.42426e-07 4.45688e-07 3.24703e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): -2.41585e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.167308e-03                 2.669181e-06
+    Cycle  1   2.659047e-05    0.022779     6.080211e-08 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.2744
+
+----------------------------------------------------------
+ starting step: 7100 time: 490.293 dt: 0.007
+----------------------------------------------------------
+solvePsiU()
+ > solveNoBcgstab iter, res_max: 3 4.80579e-06 6.29911e-05 3.24405e-12
+ > solveNoBcgstab iter, res_max: 6 6.13164e-07 2.62697e-06 3.24385e-12
+ > solveNoBcgstab iter, res_max: 9 1.34566e-07 4.21163e-07 3.24365e-12
+solvePsiPAndCorrectPsiU()
+ > Poisson rhs sum (should be zero): 3.97904e-13
+
+
+BoomerAMG SOLVER PARAMETERS:
+
+  Maximum number of cycles:         50 
+  Stopping Tolerance:               1.000000e-06 
+  Cycle type (1 = V, 2 = W, etc.):  1
+
+  Relaxation Parameters:
+   Visiting Grid:                     down   up  coarse
+   Visiting Grid:                     down   up  coarse
+            Number of partial sweeps:    1    1     1 
+   Type 0=Jac, 3=hGS, 6=hSGS, 9=GE:      3    3     3 
+   Point types, partial sweeps (1=C, -1=F):
+                  Pre-CG relaxation (down):   1  -1
+                   Post-CG relaxation (up):  -1   1
+                             Coarsest grid:   0
+
+ Output flag (print_level): 3 
+
+
+AMG SOLUTION INFO:
+                                            relative
+               residual        factor       residual
+               --------        ------       --------
+    Initial    1.103054e-03                 2.522912e-06
+    Cycle  1   2.512681e-05    0.022779     5.747020e-08 
+
+
+ Average Convergence Factor = 0.022779
+
+     Complexity:    grid = 1.840304
+                operator = 2.630693
+                   cycle = 5.261173
+
+
+
+ > dumpScalarRange: CFL, 0.00584888:3.96579
+ > time since last check[s]: 16.2808

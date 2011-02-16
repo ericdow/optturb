@@ -42,10 +42,11 @@ def runadj(path, restart, nsteps, np, ctol):
     rep += str(nsteps)
     rep += '\n'
     lines.append(rep)
-    rep = 'DT = 0.0075\n'
+    rep = 'DT = 0.007\n'
     lines.append(rep)
     rep = 'RESTART = '
     rep += restart
+    rep += '\n'
     lines.append(rep)
     rep = 'CONVERGE_TOL = '
     rep += str(ctol)
@@ -53,10 +54,8 @@ def runadj(path, restart, nsteps, np, ctol):
     open(in_file,'w').writelines(lines)
 
     # call ifDual...
-    cmd = ''.join(['mpirun -np ',str(np),call,'0 > ',out_file,' &'])
-    print ''.join(['Running Adjoint from ',restart,'...'])
+    cmd = ''.join(['mpirun -np ',str(np),call,'2 > ',out_file])
     os.system(cmd)
-    print 'Done running Adjoint'
     os.chdir(prev)
 
     return
@@ -103,6 +102,7 @@ def runpri(path, restart, nsteps, np, ctol):
     lines.append(rep)
     rep = 'RESTART = '
     rep += restart
+    rep += '\n'
     lines.append(rep)
     rep = 'CONVERGE_TOL = '
     rep += str(ctol)
@@ -110,10 +110,8 @@ def runpri(path, restart, nsteps, np, ctol):
     open(in_file,'w').writelines(lines)
 
     # call ifDual...
-    cmd = ''.join(['mpirun -np ',str(np),call,'2 > ',out_file,' &'])
-    print ''.join(['Running Primal from ',restart,'...'])
+    cmd = ''.join(['mpirun -np ',str(np),call,'0 > ',out_file])
     os.system(cmd)
-    print 'Done running Primal'
     os.chdir(prev)
 
     return

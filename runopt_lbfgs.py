@@ -19,7 +19,7 @@ nno, x_no, y_no, nu0 = file_io.read_field(temp)
 # create an instance of opt
 o = opt(x_no, y_no, niter, restart, path, np, ctolpri, ctoladj)
 tol = 1e-9
-nopt = 200 # number of optimization iterations
+nopt = 500 # number of optimization iterations
 x_opt, J_opt, res = o.lbfgs(nopt, nu0, tol)
 nu_opt = exp(x_opt)
 
